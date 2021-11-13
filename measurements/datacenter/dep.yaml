@@ -1,0 +1,65 @@
+---
+service:
+  ip: 10.0.0.2
+  subnet: 10.0.0.0/24
+hosts:
+  - 10.0.0.102
+  - 10.0.0.103
+  - 10.0.0.104
+next: $CHIMA_ROOT/measurements/datacenter/redep.yaml
+path:
+  - type: port
+    value: 1
+  - type: function
+    value: 1
+  - type: port
+    value: 3
+  - type: timestamp
+    value: 0
+  - type: port
+    value: 3
+functions:
+  changettl:
+    id: 1
+    device: device:bmv2:s00
+    triggers:
+      - - 11
+        - 00
+  toupper:
+    id: 2
+    device: 10.0.0.103
+    iface: d3-eth0
+    ip: 10.0.0.2
+    paths:
+      - dst: 10.0.0.3
+        stack:
+          - type: timestamp
+            value: 102
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 3
+      - dst: 10.0.0.200
+        stack:
+          - type: timestamp
+            value: 102
+          - type: port
+            value: 1
+          - type: port
+            value: 1
+          - type: port
+            value: 3
+  echo:
+    id: 3
+    device: 10.0.0.103
+    iface: d3-eth0
+    ip: 10.0.0.3
+    paths:
+      - dst: 10.0.0.2
+        stack:
+          - type: timestamp
+            value: 103
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 3

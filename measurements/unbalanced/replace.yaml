@@ -1,0 +1,8 @@
+version: "3"
+services:
+    replace:
+        build:
+            dockerfile: ./Dockerfile.replace
+            context: "$CHIMA_ROOT/measurements/unbalanced"
+        ports:
+            - 12345:12345/udp

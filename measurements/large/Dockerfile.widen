@@ -1,0 +1,6 @@
+FROM python:alpine
+MAINTAINER battistonelia@erap.space
+
+COPY widen.py .
+
+CMD python3 widen.py

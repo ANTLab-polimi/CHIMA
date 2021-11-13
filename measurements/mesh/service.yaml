@@ -1,0 +1,18 @@
+---
+service:
+  client: 10.0.0.200
+  port: 12345
+functions:
+  toupper:
+    type: container
+    file: $CHIMA_ROOT/measurements/mesh/toupper.yaml
+    next: replace
+  replace:
+    latency: 10000
+    jitter: 10000
+    type: container
+    file: $CHIMA_ROOT/measurements/mesh/replace.yaml
+    next: echo
+  echo:
+    type: container
+    file: $CHIMA_ROOT/measurements/mesh/echo.yaml

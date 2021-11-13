@@ -1,0 +1,35 @@
+diff --git a/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleDriverProvider.java b/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleDriverProvider.java
+index 1b18452a86..59f66c0c35 100644
+--- a/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleDriverProvider.java
++++ b/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleDriverProvider.java
+@@ -60,7 +60,7 @@ import static org.onosproject.net.flow.oldbatch.FlowRuleBatchEntry.FlowRuleOpera
+ /**
+  * Driver-based flow rule provider.
+  */
+-class FlowRuleDriverProvider extends AbstractProvider implements FlowRuleProvider {
++public class FlowRuleDriverProvider extends AbstractProvider implements FlowRuleProvider {
+ 
+     private final Logger log = LoggerFactory.getLogger(getClass());
+ 
+@@ -188,7 +188,7 @@ class FlowRuleDriverProvider extends AbstractProvider implements FlowRuleProvide
+         }
+     }
+ 
+-    private void pollDeviceFlowEntries(Device device) {
++    public void pollDeviceFlowEntries(Device device) {
+         try {
+             providerService.pushFlowMetrics(device.id(), device.as(FlowRuleProgrammable.class).getFlowEntries());
+         } catch (Exception e) {
+diff --git a/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleManager.java b/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleManager.java
+index dd7f8029e9..e87ad9169c 100644
+--- a/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleManager.java
++++ b/core/net/src/main/java/org/onosproject/net/flow/impl/FlowRuleManager.java
+@@ -141,7 +141,7 @@ public class FlowRuleManager
+     private final FlowRuleStoreDelegate delegate = new InternalStoreDelegate();
+     private final DeviceListener deviceListener = new InternalDeviceListener();
+ 
+-    private final FlowRuleDriverProvider driverProvider = new FlowRuleDriverProvider();
++    public final FlowRuleDriverProvider driverProvider = new FlowRuleDriverProvider();
+ 
+     protected ExecutorService deviceInstallers =
+             Executors.newFixedThreadPool(32, groupedThreads("onos/flowservice", "device-installer-%d", log));

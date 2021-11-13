@@ -1,0 +1,32 @@
+diff --git a/apps/inbandtelemetry/impl/src/main/java/org/onosproject/inbandtelemetry/impl/SimpleIntManager.java b/apps/inbandtelemetry/impl/src/main/java/org/onosproject/inbandtelemetry/impl/SimpleIntManager.java
+index ffb6b4f995..3746cb0d13 100644
+--- a/apps/inbandtelemetry/impl/src/main/java/org/onosproject/inbandtelemetry/impl/SimpleIntManager.java
++++ b/apps/inbandtelemetry/impl/src/main/java/org/onosproject/inbandtelemetry/impl/SimpleIntManager.java
+@@ -218,6 +218,7 @@ public class SimpleIntManager implements IntService {
+                     .withMinFlowHopLatencyChangeNs(reportConfig.minFlowHopLatencyChangeNs())
+                     .withCollectorPort(reportConfig.collectorPort())
+                     .withCollectorIp(reportConfig.collectorIp())
++                    .withCollectorNextHopMac(reportConfig.collectorNextHopMac())
+                     .enabled(true)
+                     .build();
+             setConfig(intDeviceConfig);
+@@ -590,6 +591,7 @@ public class SimpleIntManager implements IntService {
+                                         .withMinFlowHopLatencyChangeNs(config.minFlowHopLatencyChangeNs())
+                                         .withCollectorPort(config.collectorPort())
+                                         .withCollectorIp(config.collectorIp())
++                                        .withCollectorNextHopMac(config.collectorNextHopMac())
+                                         .enabled(true)
+                                         .build();
+                                 setConfig(intDeviceConfig);
+diff --git a/tools/build/publish-target-list b/tools/build/publish-target-list
+index 09490fb200..511fdae14b 100644
+--- a/tools/build/publish-target-list
++++ b/tools/build/publish-target-list
+@@ -1,4 +1,7 @@
+ # Targets placed in this list will be published as Maven artifacts
++    //apps/inbandtelemetry/api:onos-apps-inbandtelemetry-api
++    //drivers/bmv2:onos-drivers-bmv2
++    //pipelines/basic:onos-pipelines-basic
+     //apps/intentsync:onos-apps-intentsync
+     //apps/mcast/api:onos-apps-mcast-api
+     //apps/mcast/cli:onos-apps-mcast-cli

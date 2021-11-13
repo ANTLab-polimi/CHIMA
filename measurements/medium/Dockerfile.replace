@@ -1,0 +1,6 @@
+FROM python:alpine
+MAINTAINER battistonelia@erap.space
+
+COPY replace.py .
+
+CMD python3 replace.py

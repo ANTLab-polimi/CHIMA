@@ -1,0 +1,24 @@
+diff --git a/core/api/src/main/java/org/onosproject/net/pi/service/PiPipeconfWatchdogEvent.java b/core/api/src/main/java/org/onosproject/net/pi/service/PiPipeconfWatchdogEvent.java
+index 0d34dd69cd..f038782259 100644
+--- a/core/api/src/main/java/org/onosproject/net/pi/service/PiPipeconfWatchdogEvent.java
++++ b/core/api/src/main/java/org/onosproject/net/pi/service/PiPipeconfWatchdogEvent.java
+@@ -32,6 +32,7 @@ public class PiPipeconfWatchdogEvent
+      */
+     public enum Type {
+         PIPELINE_READY,
++        PIPELINE_CHANGED,
+         PIPELINE_UNKNOWN
+     }
+ 
+diff --git a/core/net/src/main/java/org/onosproject/net/pi/impl/PiPipeconfWatchdogManager.java b/core/net/src/main/java/org/onosproject/net/pi/impl/PiPipeconfWatchdogManager.java
+index 103d6cf9c9..1d282919cb 100644
+--- a/core/net/src/main/java/org/onosproject/net/pi/impl/PiPipeconfWatchdogManager.java
++++ b/core/net/src/main/java/org/onosproject/net/pi/impl/PiPipeconfWatchdogManager.java
+@@ -250,6 +250,7 @@ public class PiPipeconfWatchdogManager
+                 if (success) {
+                     signalStatusReady(device.id());
+                     signalStatusConfigured(device.id());
++                    post(new PiPipeconfWatchdogEvent(PiPipeconfWatchdogEvent.Type.PIPELINE_CHANGED, device.id()));
+                 } else {
+                     signalStatusUnknown(device.id());
+                 }

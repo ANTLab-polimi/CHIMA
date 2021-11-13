@@ -1,0 +1,39 @@
+FROM docker:dind
+MAINTAINER battistonelia@erap.space
+
+#We need the edge repository to get newer versions of the bcc package
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+
+RUN apk add --no-cache \
+    bash \
+    net-tools \
+    curl \
+    iperf \
+    ethtool \
+    python3 \
+    py3-pip \
+    py3-numpy \
+    libbpf-dev \
+    linux-headers \
+    bcc-tools \
+    bcc \
+    py3-bcc \
+    --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community/
+
+# FOP4 uses the absolute path /sbin/ethtool
+# to disable checksum offloading, so we have
+# to create a symlink
+RUN ln -s /usr/sbin/ethtool /sbin/ethtool
+
+COPY ./CHIMAclient ./CHIMAclient
+RUN pip install -r ./CHIMAclient/requirements.txt
+
+COPY ./server_start.sh .
+RUN chmod +x server_start.sh
+
+COPY ./python_alpine.tar .
+
+EXPOSE 5001
+EXPOSE 5001/udp
+
+CMD /bin/bash ./server_start.sh

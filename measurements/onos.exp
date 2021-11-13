@@ -1,0 +1,23 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+set home $env(CHIMA_ROOT)
+
+#Starting ONOS
+spawn $home/run-onos.sh
+set onos $spawn_id
+expect "Application org.onosproject.drivers.bmv2"
+
+#Install stub
+spawn make -C $home/chima-stub
+
+expect -i $onos "Started HttpServiceContext{httpContext=WebAppHttpContext{it.polimi.chima"
+
+puts "READY READY READY READY"
+puts "READY READY READY READY"
+puts "READY READY READY READY"
+puts "READY READY READY READY"
+
+spawn printf '\7'
+
+interact -i $onos

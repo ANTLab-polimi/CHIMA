@@ -1,0 +1,105 @@
+#!/usr/bin/expect -f
+
+set case [lindex $argv 0]
+set polling [lindex $argv 1]
+set interval "0.1"
+set ewma [lindex $argv 3]
+
+set timeout -1
+set home $env(CHIMA_ROOT)
+set measure "$home/measurements"
+
+#Clean hanging ports and applications
+spawn $measure/clean.sh
+expect eof
+
+#Clean timestamps
+set timestamps "$measure/timestamps.txt"
+spawn truncate -s 0 $timestamps
+expect eof
+
+spawn make -C $measure/$case/topology
+set mininet $spawn_id
+puts "Starting Mininet..."
+expect -i $mininet "containernet>"
+puts "Mininet ready, waiting a bit for pingall..."
+sleep 8
+
+send -i $mininet -- "pingall\n"
+puts "Launched pingall..."
+
+spawn make -C $home/CHIMAclient
+set client $spawn_id
+puts "Started CHIMAclient..."
+
+spawn make -C $home/CHIMA expect polling=$polling ewma=$ewma
+set chima $spawn_id
+expect -i $chima "chima>"
+puts "CHIMA ready..."
+
+send -i $chima -- "topo\n"
+
+expect "chima>"
+
+sleep 8
+
+send -i $chima -- "deploy $measure/$case/service.yaml $measure/$case/dep.yaml\n"
+
+expect -i $chima "The service is available"
+
+sleep 10
+
+spawn $measure/common/autowrite.py
+set application $spawn_id
+puts "Running application a bit..."
+
+expect -i $application "echo"
+
+sleep 5
+
+#Close application
+puts "Closing application..."
+send -i $application \x03
+expect -i $application eof
+
+send -i $mininet -- "delay 20ms\n"
+puts "Applied delay..."
+
+sleep 2
+
+spawn $measure/common/autowrite.py $interval
+set application $spawn_id
+puts "Running application again..."
+
+expect -i $chima "TRIGGER!"
+
+sleep 1
+
+expect -i $chima "chima>"
+
+#Close application
+puts "Closing application..."
+send -i $application \x03
+expect -i $application eof
+
+#Close chima
+puts "Closing CHIMA..."
+send -i $chima \x03
+expect -i $chima eof
+
+#Close client
+puts "Closing CHIMAclient..."
+send -i $client \x03
+expect -i $client eof
+
+#Close mininet
+puts "Closing Mininet..."
+send -i $mininet -- "exit\n"
+expect -i $mininet eof
+
+#Run calctimes
+puts "Calculating times..."
+spawn $measure/calctimes.py $case $polling $ewma
+expect eof
+
+spawn printf '\7'

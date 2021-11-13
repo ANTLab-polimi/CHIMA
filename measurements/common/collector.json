@@ -1,0 +1,11 @@
+{
+    "apps": {
+        "org.onosproject.inbandtelemetry": {
+        "report": {
+            "collectorIp": "10.0.0.200",
+            "collectorPort": 54321,
+            "collectorNextHopMac": "00:00:00:00:00:20"
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+---
+service:
+  client: 10.0.0.200
+  port: 12345
+  latency: 100000
+  jitter: 100000
+functions:
+  changettl:
+    type: switch
+    file: $CHIMA_ROOT/measurements/minimal/functions/changettl.p4
+    control: changettl_control
+    next: toupper
+  toupper:
+    type: container
+    latency: 5000
+    jitter: 5000
+    file: $CHIMA_ROOT/measurements/minimal/toupper.yaml
+    next: changettl2
+  changettl2:
+    type: switch
+    file: $CHIMA_ROOT/measurements/minimal/functions/changettl.p4
+    control: changettl_control
+    next: echo
+  echo:
+    type: container
+    file: $CHIMA_ROOT/measurements/minimal/echo.yaml

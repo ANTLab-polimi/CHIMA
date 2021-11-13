@@ -1,0 +1,1 @@
+sudo docker build --no-cache -t erap320:dind -f Dockerfile.server .

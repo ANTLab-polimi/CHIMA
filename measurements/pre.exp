@@ -1,0 +1,16 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+set home $env(CHIMA_ROOT)
+
+spawn make -C $home/measurements/minimal/topology
+set mininet $spawn_id
+puts "Starting Mininet..."
+expect -i $mininet "containernet>"
+puts "Mininet ready, waiting a bit..."
+sleep 8
+
+#Close mininet
+puts "Closing Mininet..."
+send -i $mininet -- "exit\n"
+expect -i $mininet eof

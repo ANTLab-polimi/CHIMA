@@ -1,0 +1,98 @@
+---
+service:
+  ip: 10.0.0.2
+  subnet: 10.0.0.0/24
+hosts:
+  - 10.0.0.101
+  - 10.0.0.102
+  - 10.0.0.103
+  - 10.0.0.104
+  - 10.0.0.105
+  - 10.0.0.106
+next: $CHIMA_ROOT/measurements/medium/redep.yaml
+path:
+  - type: port
+    value: 2
+  - type: timestamp
+    value: 0
+  - type: port
+    value: 2
+functions:
+  toupper:
+    id: 2
+    device: 10.0.0.101
+    iface: d1-eth0
+    ip: 10.0.0.2
+    triggers:
+      - - 00
+        - 11
+    paths:
+      - dst: 10.0.0.3
+        stack:
+          - type: timestamp
+            value: 101
+          - type: port
+            value: 3
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+      - dst: 10.0.0.200
+        stack:
+          - type: timestamp
+            value: 101
+          - type: port
+            value: 1
+          - type: port
+            value: 1
+  replace:
+    id: 4
+    device: 10.0.0.103
+    iface: d3-eth0
+    ip: 10.0.0.3
+    paths:
+      - dst: 10.0.0.4
+        stack:
+          - type: timestamp
+            value: 102
+          - type: port
+            value: 3
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+      - dst: 10.0.0.2
+        stack:
+          - type: timestamp
+            value: 102
+          - type: port
+            value: 1
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+  echo:
+    id: 6
+    device: 10.0.0.105
+    iface: d5-eth0
+    ip: 10.0.0.4
+    paths:
+      - dst: 10.0.0.3
+        stack:
+          - type: timestamp
+            value: 103
+          - type: port
+            value: 1
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+  changettl:
+    id: 1
+    device: device:bmv2:s11
+  changettl2:
+    id: 3
+    device: device:bmv2:s33
+  changettl3:
+    id: 5
+    device: device:bmv2:s55

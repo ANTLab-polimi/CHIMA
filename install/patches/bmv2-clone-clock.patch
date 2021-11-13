@@ -1,0 +1,49 @@
+diff --git a/targets/simple_switch/simple_switch.cpp b/targets/simple_switch/simple_switch.cpp
+index 35a8c63..93ae87c 100644
+--- a/targets/simple_switch/simple_switch.cpp
++++ b/targets/simple_switch/simple_switch.cpp
+@@ -219,7 +219,7 @@ SimpleSwitch::SimpleSwitch(bool enable_swap, port_t drop_port)
+         this->transmit_fn(port_num, buffer, len);
+     }),
+     pre(new McSimplePreLAG()),
+-    start(clock::now()),
++    start(clock::from_time_t(0)), //Elia
+     mirroring_sessions(new MirroringSessions()) {
+   add_component<McSimplePreLAG>(pre);
+ 
+@@ -489,7 +489,7 @@ SimpleSwitch::ingress_thread() {
+     (void) ingress_port;
+     BMLOG_DEBUG_PKT(*packet, "Processing packet received on port {}",
+                     ingress_port);
+-
++    
+     auto ingress_packet_size =
+         packet->get_register(RegisterAccess::PACKET_LENGTH_REG_IDX);
+ 
+@@ -557,7 +557,13 @@ SimpleSwitch::ingress_thread() {
+         // we need to parse again
+         // the alternative would be to pay the (huge) price of PHV copy for
+         // every ingress packet
++        
++        copy_field_list_and_set_type(packet, packet_copy,
++                                     PKT_INSTANCE_TYPE_INGRESS_CLONE,
++                                     field_list_id);
++
+         parser->parse(packet_copy.get());
++
+         copy_field_list_and_set_type(packet, packet_copy,
+                                      PKT_INSTANCE_TYPE_INGRESS_CLONE,
+                                      field_list_id);
+diff --git a/targets/simple_switch/simple_switch.h b/targets/simple_switch/simple_switch.h
+index 7ab36a4..303aaeb 100644
+--- a/targets/simple_switch/simple_switch.h
++++ b/targets/simple_switch/simple_switch.h
+@@ -81,7 +81,7 @@ class SimpleSwitch : public Switch {
+   static constexpr port_t default_drop_port = 511;
+ 
+  private:
+-  using clock = std::chrono::high_resolution_clock;
++  using clock = std::chrono::system_clock; //Elia
+ 
+  public:
+   // by default, swapping is off

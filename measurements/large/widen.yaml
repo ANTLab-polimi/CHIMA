@@ -1,0 +1,8 @@
+version: "3"
+services:
+    widen:
+        build:
+            dockerfile: ./Dockerfile.widen
+            context: "$CHIMA_ROOT/measurements/large"
+        ports:
+            - 12345:12345/udp

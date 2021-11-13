@@ -1,0 +1,13 @@
+diff --git a/mininet/node.py b/mininet/node.py
+index ee82c7c..b931f69 100755
+--- a/mininet/node.py
++++ b/mininet/node.py
+@@ -813,7 +813,7 @@ def __init__(self, name, dimage=None, dcmd=None, build_params={},
+         # see: https://docker-py.readthedocs.io/en/stable/api.html#docker.api.container.ContainerApiMixin.create_host_config
+         hc = self.dcli.create_host_config(
+             network_mode=self.network_mode,
+-            privileged=False,  # no longer need privileged, using net_admin capability instead
++            privileged=True,  # need priviledged to user docker in docker
+             binds=self.volumes,
+             tmpfs=self.tmpfs,
+             publish_all_ports=self.publish_all_ports,

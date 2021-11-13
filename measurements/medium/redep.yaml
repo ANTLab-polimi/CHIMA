@@ -1,0 +1,90 @@
+---
+service:
+  ip: 10.0.0.2
+  subnet: 10.0.0.0/24
+path:
+  - type: port
+    value: 3
+  - type: timestamp
+    value: 0
+  - type: port
+    value: 2
+functions:
+  toupper:
+    id: 2
+    device: 10.0.0.102
+    iface: d2-eth0
+    ip: 10.0.0.2
+    triggers:
+      - - 00
+        - 22
+    paths:
+      - dst: 10.0.0.3
+        stack:
+          - type: timestamp
+            value: 101
+          - type: port
+            value: 3
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+      - dst: 10.0.0.200
+        stack:
+          - type: timestamp
+            value: 101
+          - type: port
+            value: 1
+          - type: port
+            value: 1
+  replace:
+    id: 4
+    device: 10.0.0.104
+    iface: d4-eth0
+    ip: 10.0.0.3
+    paths:
+      - dst: 10.0.0.4
+        stack:
+          - type: timestamp
+            value: 102
+          - type: port
+            value: 3
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+      - dst: 10.0.0.2
+        stack:
+          - type: timestamp
+            value: 102
+          - type: port
+            value: 1
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+  echo:
+    id: 6
+    device: 10.0.0.106
+    iface: d6-eth0
+    ip: 10.0.0.4
+    paths:
+      - dst: 10.0.0.3
+        stack:
+          - type: timestamp
+            value: 103
+          - type: port
+            value: 1
+          - type: timestamp
+            value: 0
+          - type: port
+            value: 2
+  changettl:
+    id: 1
+    device: device:bmv2:s22
+  changettl2:
+    id: 3
+    device: device:bmv2:s44
+  changettl3:
+    id: 5
+    device: device:bmv2:s66

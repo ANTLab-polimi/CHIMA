@@ -1,0 +1,6 @@
+FROM python:alpine
+MAINTAINER battistonelia@erap.space
+
+COPY echo.py .
+
+CMD python3 echo.py

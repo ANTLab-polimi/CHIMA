@@ -1,0 +1,6 @@
+FROM python:alpine
+MAINTAINER battistonelia@erap.space
+
+COPY toupper.py .
+
+CMD python toupper.py
