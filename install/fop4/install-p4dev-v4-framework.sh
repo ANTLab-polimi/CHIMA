@@ -668,7 +668,7 @@ echo "start install mininet:"
 set -x
 date
 
-git clone git://github.com/mininet/mininet mininet
+git clone https://github.com/mininet/mininet mininet
 cd mininet
 #Stable for framework
 git checkout 57294d013e780cccc6b4b9af151906b382c4d8a7
@@ -695,7 +695,7 @@ date
 
 sudo pip3 install pypcap
 
-git clone git://github.com/p4lang/ptf
+git clone https://github.com/p4lang/ptf
 cd ptf
 #Stable for framework
 git checkout d91af2106df097e619bbe811637426752b2fd4d4
