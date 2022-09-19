@@ -5,7 +5,7 @@ import time
 import os
 
 def take_timestamp(event):
-    with open( os.path.expandvars("$CHIMA_ROOT/measurements/timestamps.txt"), "a") as file:
+    with open( os.path.expandvars("$CHIMA_ROOT/measurements/Times/timestamps.txt"), "a") as file:
         file.write("%s:%u\n" %(event, time.time_ns()) )
 
 ip = "0.0.0.0"
