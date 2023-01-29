@@ -3,8 +3,8 @@ from os import path, terminal_size
 import time
 import sys
 
-prev = 0
-pre_desc = None
+#prev = 0
+#pre_desc = None
 
 arguments = "_".join(sys.argv[1:])
 
